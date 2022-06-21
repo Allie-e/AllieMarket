@@ -54,7 +54,7 @@ class MainViewController: UIViewController {
     
     private func setUpNavigationBar() {
         navigationItem.titleView = segmentedControl
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: AccessoryImage.plus, style: .plain, target: self, action: nil)
     }
     
     private func setUpListCollectionView() {
