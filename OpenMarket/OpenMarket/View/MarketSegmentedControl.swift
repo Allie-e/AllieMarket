@@ -1,18 +1,21 @@
 import UIKit
 
-class LayoutSegmentedControl: UISegmentedControl {
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setUpUI()
+class MarketSegmentedControl: UISegmentedControl {
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
-    func setUpUI() {
-        let items = ["LIST","GRID"]
-        
-        items.enumerated().forEach { (index, title) in
-            setTitle(title, forSegmentAt: index)
-        }
-
+    override init(items: [Any]?) {
+        super.init(items: items)
+        setUpUI(items: items)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    private func setUpUI(items: [Any]?) {
         layer.borderColor = UIColor.systemBlue.cgColor
         layer.borderWidth = 2
         selectedSegmentTintColor = UIColor.systemBlue

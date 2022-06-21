@@ -13,9 +13,9 @@ class MainViewController: UIViewController {
     let api: APIManageable = APIManager()
     
     // MARK: - Properties
-    @IBOutlet private weak var segment: LayoutSegmentedControl!
-    @IBOutlet private weak var listCollectionView: UICollectionView!
-    @IBOutlet private weak var gridCollectionView: UICollectionView!
+    private var segmentedControl: MarketSegmentedControl!
+    private var listCollectionView: UICollectionView!
+    private var gridCollectionView: UICollectionView!
     
     private var productList = [ProductInformation]() {
         didSet {
@@ -29,11 +29,11 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        listCollectionView.collectionViewLayout = setListCollectionViewLayout()
-        gridCollectionView.collectionViewLayout = setGridCollectionViewLayout()
-        
-        setSegmentedControl()
+        view.backgroundColor = .white
+        setUpSegmentedControl()
+        setUpNavigationBar()
+        setUpListCollectionView()
+        setUpGridCollectionView()
         getProductData()
         setUpListCell()
         setUpGridCell()
@@ -41,8 +41,44 @@ class MainViewController: UIViewController {
         applyGridSnapShot(animatingDifferences: false)
     }
     
-    private func setSegmentedControl() {
-        navigationItem.titleView = segment
+    private func setUpSegmentedControl() {
+        segmentedControl = MarketSegmentedControl(items: ["LIST","GRID"])
+        view.addSubview(segmentedControl)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            segmentedControl.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor)
+        ])
+        segmentedControl.addTarget(self, action: #selector(changeView), for: .valueChanged)
+    }
+    
+    private func setUpNavigationBar() {
+        navigationItem.titleView = segmentedControl
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: nil)
+    }
+    
+    private func setUpListCollectionView() {
+        listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setListCollectionViewLayout())
+        view.addSubview(listCollectionView)
+        listCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            listCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            listCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            listCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
+    private func setUpGridCollectionView() {
+        gridCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setGridCollectionViewLayout())
+        view.addSubview(gridCollectionView)
+        gridCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            gridCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            gridCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            gridCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            gridCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
     
     private func getProductData() {
@@ -125,13 +161,14 @@ class MainViewController: UIViewController {
         
         return layout
     }
-    // MARK: - IBAction Method
-    @IBAction private func changeView(_ sender: LayoutSegmentedControl) {
+    
+    // MARK: - @objc Method
+    @objc func changeView(_ sender: MarketSegmentedControl) {
         switch sender.selectedSegmentIndex {
-        case ViewMode.list:
+        case 0:
             listCollectionView.isHidden = false
             gridCollectionView.isHidden = true
-        case ViewMode.grid:
+        case 1:
             listCollectionView.isHidden = true
             gridCollectionView.isHidden = false
         default:
