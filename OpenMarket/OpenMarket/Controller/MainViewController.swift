@@ -29,11 +29,10 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         setUpSegmentedControl()
         setUpNavigationBar()
-        setUpListCollectionView()
         setUpGridCollectionView()
+        setUpListCollectionView()
         getProductData()
         setUpListCell()
         setUpGridCell()
@@ -54,12 +53,12 @@ class MainViewController: UIViewController {
     
     private func setUpNavigationBar() {
         navigationItem.titleView = segmentedControl
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: AccessoryImage.plus, style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: AccessoryImage.plus, style: .plain, target: self, action: #selector(showProductRegisterView))
     }
     
     private func setUpListCollectionView() {
         listCollectionView = UICollectionView(frame: .zero, collectionViewLayout: setListCollectionViewLayout())
-        view.addSubview(listCollectionView)
+            view.addSubview(listCollectionView)
         listCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             listCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -174,5 +173,11 @@ class MainViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    @objc func showProductRegisterView() {
+        let navigationController = UINavigationController(rootViewController: ProductRegisterViewController())
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true, completion: nil)
     }
 }
