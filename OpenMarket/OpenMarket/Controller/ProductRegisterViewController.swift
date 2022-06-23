@@ -8,11 +8,12 @@
 import UIKit
 
 class ProductRegisterViewController: UIViewController {
+    let productImagePicker = ProductImagePickerController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         setUpNavigationBar()
+        self.productImagePicker.delegate = self
     }
     
     private func setUpNavigationBar() {
@@ -28,5 +29,31 @@ class ProductRegisterViewController: UIViewController {
     @objc func didTapDoneButton() {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @objc func pickProductImage() {
+        self.present(self.productImagePicker, animated: true)
+    }
 
+}
+
+extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func presentCamera() {
+        productImagePicker.sourceType = .camera
+        productImagePicker.allowsEditing = true
+        productImagePicker.cameraFlashMode = .on
+        
+        present(productImagePicker, animated: true, completion: nil)
+    }
+    
+    func presentAlbum() {
+        productImagePicker.sourceType = .photoLibrary
+        productImagePicker.allowsEditing = true
+        
+        present(productImagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
 }

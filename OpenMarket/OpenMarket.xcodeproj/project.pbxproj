@@ -33,6 +33,7 @@
 		FB2CEAE22786D62800DB75DF /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEAE12786D62700DB75DF /* HTTPMethod.swift */; };
 		FB2CEAE42787188200DB75DF /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2CEAE32787188100DB75DF /* ProductImage.swift */; };
 		FB3C180B28621AEC0084E4FD /* ProductRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3C180A28621AEC0084E4FD /* ProductRegisterViewController.swift */; };
+		FB3C180D286364DA0084E4FD /* ProductImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3C180C286364DA0084E4FD /* ProductImagePickerController.swift */; };
 		FB52A73D2798508D00A8A126 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB52A73C2798508D00A8A126 /* String+extension.swift */; };
 		FB52A740279850D100A8A126 /* Double+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB52A73F279850D100A8A126 /* Double+extension.swift */; };
 		FB52A742279850FC00A8A126 /* CALayer+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB52A741279850FB00A8A126 /* CALayer+extension.swift */; };
@@ -79,6 +80,7 @@
 		FB2CEAE12786D62700DB75DF /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		FB2CEAE32787188100DB75DF /* ProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImage.swift; sourceTree = "<group>"; };
 		FB3C180A28621AEC0084E4FD /* ProductRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRegisterViewController.swift; sourceTree = "<group>"; };
+		FB3C180C286364DA0084E4FD /* ProductImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImagePickerController.swift; sourceTree = "<group>"; };
 		FB52A73C2798508D00A8A126 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		FB52A73F279850D100A8A126 /* Double+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+extension.swift"; sourceTree = "<group>"; };
 		FB52A741279850FB00A8A126 /* CALayer+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+extension.swift"; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
 				FB3C180A28621AEC0084E4FD /* ProductRegisterViewController.swift */,
+				FB3C180C286364DA0084E4FD /* ProductImagePickerController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				FB2CEADE27840FB800DB75DF /* Parser.swift in Sources */,
 				FBF225E32796B33D00DA8161 /* ListCollectionViewCell.swift in Sources */,
 				FB2CEABC2783E54800DB75DF /* ProductList.swift in Sources */,
+				FB3C180D286364DA0084E4FD /* ProductImagePickerController.swift in Sources */,
 				FB52A742279850FC00A8A126 /* CALayer+extension.swift in Sources */,
 				FB2CEAE22786D62800DB75DF /* HTTPMethod.swift in Sources */,
 				FBFB49F8279FC70100759706 /* APIManageable.swift in Sources */,
