@@ -8,18 +8,32 @@
 import UIKit
 
 class ProductRegisterViewController: UIViewController {
+    let productRegisterView = ProductRegisterView()
     let productImagePicker = ProductImagePickerController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
         self.productImagePicker.delegate = self
+        setUpUI()
     }
     
     private func setUpNavigationBar() {
         navigationItem.title = "상품등록"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancelButton))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapDoneButton))
+    }
+    
+    private func setUpUI() {
+        view.addSubview(productRegisterView)
+        productRegisterView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            productRegisterView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            productRegisterView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            productRegisterView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            productRegisterView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
     }
     
     @objc func didTapCancelButton() {
