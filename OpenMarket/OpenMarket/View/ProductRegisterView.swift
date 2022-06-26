@@ -36,7 +36,7 @@ class ProductRegisterView: UIScrollView {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
-        stackView.spacing = 5
+        stackView.spacing = 10
         
         return stackView
     }()
@@ -51,43 +51,11 @@ class ProductRegisterView: UIScrollView {
         return stackView
     }()
     
-    let productNameTextField: UITextField = {
-       let textField = UITextField()
-        textField.placeholder = "상품명"
-        textField.borderStyle = .roundedRect
-        textField.clearButtonMode = .always
-        
-        return textField
-    }()
-    
-    let priceTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "상품가격"
-        textField.borderStyle = .roundedRect
-        textField.clearButtonMode = .always
-        
-        return textField
-    }()
-    
-    let discountPriceTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "할인금액"
-        textField.borderStyle = .roundedRect
-        textField.clearButtonMode = .always
-        
-        return textField
-    }()
-    
-    let stockTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "재고수량"
-        textField.borderStyle = .roundedRect
-        textField.clearButtonMode = .always
-        
-        return textField
-    }()
-    
-    let currencySegmentedControl = UISegmentedControl(items: ["KRW", "USD"])
+    let productNameTextField = ProductInformationTextField(placeholder: "상품명")
+    let priceTextField = ProductInformationTextField(placeholder: "상품가격")
+    let discountPriceTextField = ProductInformationTextField(placeholder: "할인금액")
+    let stockTextField = ProductInformationTextField(placeholder: "재고수량")
+    let currencySegmentedControl = MarketSegmentedControl(items: ["KRW", "USD"])
     
     let productDescriptionTextView: UITextView = {
        let textView = UITextView()
@@ -153,9 +121,8 @@ class ProductRegisterView: UIScrollView {
             
             productDescriptionTextView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor),
             productDescriptionTextView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            productDescriptionTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            productDescriptionTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            productDescriptionTextView.widthAnchor.constraint(equalTo: self.widthAnchor)
+            productDescriptionTextView.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
+            productDescriptionTextView.trailingAnchor.constraint(equalTo: textFieldStackView.trailingAnchor),
         ])
     }
 }

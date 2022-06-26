@@ -61,10 +61,10 @@ class GridCollectionViewCell: UICollectionViewCell {
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            contentStackView.widthAnchor.constraint(equalToConstant: contentView.bounds.width),
-            contentStackView.heightAnchor.constraint(equalToConstant: contentView.bounds.height),
-            contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            contentStackView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
     }
     
@@ -73,11 +73,9 @@ class GridCollectionViewCell: UICollectionViewCell {
         productImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            productImageView.topAnchor.constraint(equalTo: contentStackView.topAnchor, constant: 10),
-            productImageView.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 0.8),
-            productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor)
+            productImageView.heightAnchor.constraint(lessThanOrEqualToConstant: self.contentView.frame.height / 2),
+            productImageView.widthAnchor.constraint(equalTo: productImageView.heightAnchor)
         ])
-        
     }
     
     private func setUpLabelStackView() {
