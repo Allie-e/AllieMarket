@@ -27,6 +27,7 @@ class ProductRegisterView: UIScrollView {
     
     let productImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()
@@ -85,12 +86,16 @@ class ProductRegisterView: UIScrollView {
     }
     
     private func setUpProductImageView() {
-        productImageStackView.addArrangedSubview(productImageView)
-        productImageStackView.addArrangedSubview(addImageButton)
+        [productImageView, addImageButton].forEach { view in
+            productImageStackView.addArrangedSubview(view)
+        }
+        
         imageScrollView.addSubview(productImageStackView)
         self.addSubview(imageScrollView)
-        imageScrollView.translatesAutoresizingMaskIntoConstraints = false
-        productImageStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        [imageScrollView, productImageStackView].forEach { view in
+            view.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
             imageScrollView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -108,18 +113,18 @@ class ProductRegisterView: UIScrollView {
     }
     
     private func setUpRegisterView() {
-        self.addSubview(textFieldStackView)
-        self.addSubview(productDescriptionTextView)
-        textFieldStackView.translatesAutoresizingMaskIntoConstraints = false
-        productDescriptionTextView.translatesAutoresizingMaskIntoConstraints = false
+        [textFieldStackView, productDescriptionTextView].forEach { view in
+            self.addSubview(view)
+            view.translatesAutoresizingMaskIntoConstraints = false
+        }
         
-        priceTextFieldStackView.addArrangedSubview(priceTextField)
-        priceTextFieldStackView.addArrangedSubview(currencySegmentedControl)
+        [priceTextField, currencySegmentedControl].forEach { view in
+            priceTextFieldStackView.addArrangedSubview(view)
+        }
         
-        textFieldStackView.addArrangedSubview(productNameTextField)
-        textFieldStackView.addArrangedSubview(priceTextFieldStackView)
-        textFieldStackView.addArrangedSubview(discountPriceTextField)
-        textFieldStackView.addArrangedSubview(stockTextField)
+        [productNameTextField, priceTextFieldStackView, discountPriceTextField, stockTextField].forEach { view in
+            textFieldStackView.addArrangedSubview(view)
+        }
         
         NSLayoutConstraint.activate([
             textFieldStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor),
