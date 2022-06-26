@@ -9,7 +9,7 @@ import UIKit
 
 class ProductRegisterView: UIScrollView {
     private let imageScrollView: UIScrollView = {
-       let scrollView = UIScrollView()
+        let scrollView = UIScrollView()
         scrollView.showsHorizontalScrollIndicator = false
         
         return scrollView
@@ -26,9 +26,16 @@ class ProductRegisterView: UIScrollView {
     }()
     
     let productImageView: UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         
         return imageView
+    }()
+    
+    let addImageButton: UIButton = {
+        let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 20, height: 20)))
+        button.setImage(AccessoryImage.plus, for: .normal)
+        
+        return button
     }()
     
     private let textFieldStackView: UIStackView = {
@@ -42,7 +49,7 @@ class ProductRegisterView: UIScrollView {
     }()
     
     private let priceTextFieldStackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.distribution = .fill
@@ -58,14 +65,14 @@ class ProductRegisterView: UIScrollView {
     let currencySegmentedControl = MarketSegmentedControl(items: ["KRW", "USD"])
     
     let productDescriptionTextView: UITextView = {
-       let textView = UITextView()
+        let textView = UITextView()
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.secondarySystemBackground.cgColor
         textView.isScrollEnabled = false
         
         return textView
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .systemBackground
@@ -79,6 +86,7 @@ class ProductRegisterView: UIScrollView {
     
     private func setUpProductImageView() {
         productImageStackView.addArrangedSubview(productImageView)
+        productImageStackView.addArrangedSubview(addImageButton)
         imageScrollView.addSubview(productImageStackView)
         self.addSubview(imageScrollView)
         imageScrollView.translatesAutoresizingMaskIntoConstraints = false
