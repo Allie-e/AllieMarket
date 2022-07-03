@@ -61,7 +61,7 @@ class APIManager: APIManageable {
     
     func registerProduct(information: NewProductInformation, image: [NewProductImage], completionHandler: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URLManager.productRegister.url else {
-            completionHandler(.failure(URLSessionError.requestFail))
+            completionHandler(.failure(URLSessionError.urlIsNil))
             return
         }
         
@@ -72,7 +72,7 @@ class APIManager: APIManageable {
         var requset = createRequest(url, .post)
         requset.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         requset.addValue("f726f2f8-7214-11ec-abfa-89ebf1f2fdc1", forHTTPHeaderField: "identifier")
-        requset.httpBody = createBody(parameters: params, boundary: boundary, images: image)
+        requset.httpBody = createBody(with: params, product: information, boundary: boundary, images: image)
         dataTask(with: requset, completionHandler)
     }
 }
@@ -83,32 +83,41 @@ extension APIManager {
         return "Boundary-\(UUID().uuidString)"
     }
     
-    func createBody(parameters: [String: String], boundary: String, images: [NewProductImage]?) -> Data {
+    func createBody(with parameters: [String: String]?, product: NewProductInformation, boundary: String, images: [NewProductImage]) -> Data {
+        let dataBody = createMultiPartFormData(with: parameters, boundary: boundary, images: images)
+        
+        return dataBody
+    }
+    
+    func createMultiPartFormData(with parameters: [String: String]?, boundary: String, images: [NewProductImage]?) -> Data {
         var body = Data()
         let boundaryPrefix = "--\(boundary)\r\n"
         
-        for (key, value) in parameters {
-            body.append(boundaryPrefix.data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
-            body.append("\(value)\r\n".data(using: .utf8)!)
+        if let parameters = parameters {
+            for (key, value) in parameters {
+                body.append(boundaryPrefix.data(using: .utf8)!)
+                body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+                body.append("\(value)\r\n".data(using: .utf8)!)
+            }
         }
         
         if let images = images {
             for image in images {
                 body.append(boundaryPrefix.data(using: .utf8)!)
-                body.append("Content-Disposition: form-data; name=\"images[]\"; filename=\"\(image.fileName)\"\r\n".data(using: .utf8)!)
+                body.append("Content-Disposition: form-data; name=\"images\"; filename=\"\(image.fileName)\"\r\n".data(using: .utf8)!)
                 body.append("Content-Type: image/\(image.type)\r\n\r\n".data(using: .utf8)!)
                 body.append(image.data)
                 body.append("\r\n".data(using: .utf8)!)
             }
         }
         
-        body.append(boundaryPrefix.data(using: .utf8)!)
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
         
         return body
     }
 }
 
+// MARK: - Create DataTask
 extension APIManager {
     @discardableResult
     func performDataTask<Element: Decodable>(with request: URLRequest, _ completionHandler: @escaping (Result<Element, Error>) -> Void) -> URLSessionDataTask {
