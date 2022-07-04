@@ -27,7 +27,6 @@ class ProductRegisterView: UIScrollView {
     
     let productImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()
