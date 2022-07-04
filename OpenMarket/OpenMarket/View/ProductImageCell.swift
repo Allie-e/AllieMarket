@@ -28,6 +28,7 @@ class ProductImageCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setUpUI()
     }
     
     required init?(coder: NSCoder) {

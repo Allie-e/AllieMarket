@@ -8,34 +8,25 @@
 import UIKit
 
 class ProductRegisterView: UIScrollView {
-    private let imageScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.showsHorizontalScrollIndicator = false
-        
-        return scrollView
-    }()
-    
-    private let productImageStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .equalSpacing
+    private let entireStackView: UIStackView = {
+       let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
         stackView.spacing = 8
         
         return stackView
     }()
     
-    let productImageView: UIImageView = {
-        let imageView = UIImageView()
+    private let ProductImageCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 10
+        layout.itemSize = CGSize(width: 100, height: 100)
+        collectionView.collectionViewLayout = layout
         
-        return imageView
-    }()
-    
-    let addImageButton: UIButton = {
-        let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 20, height: 20)))
-        button.setImage(AccessoryImage.plus, for: .normal)
-        
-        return button
+        return collectionView
     }()
     
     private let textFieldStackView: UIStackView = {
@@ -69,6 +60,7 @@ class ProductRegisterView: UIScrollView {
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.secondarySystemBackground.cgColor
         textView.isScrollEnabled = false
+        textView.font = .preferredFont(forTextStyle: .body)
         
         return textView
     }()
@@ -76,45 +68,30 @@ class ProductRegisterView: UIScrollView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .systemBackground
-        setUpProductImageView()
-        setUpRegisterView()
+        setUpEntireStackView()
+        addSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setUpProductImageView() {
-        [productImageView, addImageButton].forEach { view in
-            productImageStackView.addArrangedSubview(view)
-        }
-        
-        imageScrollView.addSubview(productImageStackView)
-        self.addSubview(imageScrollView)
-        
-        [imageScrollView, productImageStackView].forEach { view in
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
+    private func setUpEntireStackView() {
+        self.addSubview(entireStackView)
+        entireStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            imageScrollView.topAnchor.constraint(equalTo: self.topAnchor),
-            imageScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            imageScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            imageScrollView.heightAnchor.constraint(equalToConstant: 100),
-            imageScrollView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            
-            productImageStackView.topAnchor.constraint(equalTo: imageScrollView.topAnchor),
-            productImageStackView.bottomAnchor.constraint(equalTo: imageScrollView.bottomAnchor),
-            productImageStackView.leadingAnchor.constraint(equalTo: imageScrollView.leadingAnchor),
-            productImageStackView.trailingAnchor.constraint(equalTo: imageScrollView.trailingAnchor),
-            productImageStackView.heightAnchor.constraint(equalTo: imageScrollView.heightAnchor)
+            entireStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            entireStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            entireStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            entireStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            entireStackView.widthAnchor.constraint(equalTo: self.widthAnchor)
         ])
     }
     
-    private func setUpRegisterView() {
-        [textFieldStackView, productDescriptionTextView].forEach { view in
-            self.addSubview(view)
-            view.translatesAutoresizingMaskIntoConstraints = false
+    private func addSubviews() {
+        [ProductImageCollectionView, textFieldStackView, productDescriptionTextView].forEach { view in
+            entireStackView.addArrangedSubview(view)
         }
         
         [priceTextField, currencySegmentedControl].forEach { view in
@@ -124,17 +101,5 @@ class ProductRegisterView: UIScrollView {
         [productNameTextField, priceTextFieldStackView, discountPriceTextField, stockTextField].forEach { view in
             textFieldStackView.addArrangedSubview(view)
         }
-        
-        NSLayoutConstraint.activate([
-            textFieldStackView.topAnchor.constraint(equalTo: imageScrollView.bottomAnchor),
-            textFieldStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            textFieldStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            textFieldStackView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            
-            productDescriptionTextView.topAnchor.constraint(equalTo: textFieldStackView.bottomAnchor),
-            productDescriptionTextView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            productDescriptionTextView.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
-            productDescriptionTextView.trailingAnchor.constraint(equalTo: textFieldStackView.trailingAnchor),
-        ])
     }
 }
