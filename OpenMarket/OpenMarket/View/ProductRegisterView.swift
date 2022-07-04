@@ -18,7 +18,7 @@ class ProductRegisterView: UIScrollView {
         return stackView
     }()
     
-    private let ProductImageCollectionView: UICollectionView = {
+    let ProductImageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal

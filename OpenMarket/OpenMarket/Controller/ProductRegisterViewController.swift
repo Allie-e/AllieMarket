@@ -8,14 +8,22 @@
 import UIKit
 
 class ProductRegisterViewController: UIViewController {
+    enum Section: CaseIterable {
+        case image
+    }
+    
     let productRegisterView = ProductRegisterView()
     let productImagePicker = ProductImagePickerController()
-
+    
+    private var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>?
+    var imageCollectionView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
         self.productImagePicker.delegate = self
         setUpUI()
+        setUpCollectionViewCell()
     }
     
     private func setUpNavigationBar() {
@@ -36,6 +44,19 @@ class ProductRegisterViewController: UIViewController {
         ])
     }
     
+    func setUpCollectionViewCell() {
+        imageCollectionView = productRegisterView.ProductImageCollectionView
+        imageCollectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: "ProductImageCell")
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, UIImage>(collectionView: imageCollectionView, cellProvider: { (collectionView, indexPath, product) -> ProductImageCell in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductImageCell", for: indexPath) as? ProductImageCell else {
+                return ProductImageCell()
+            }
+            
+            return cell
+        })
+    }
+    
     @objc func didTapCancelButton() {
         self.dismiss(animated: true, completion: nil)
     }
@@ -51,7 +72,6 @@ class ProductRegisterViewController: UIViewController {
 }
 
 extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     func presentCamera() {
         productImagePicker.sourceType = .camera
         productImagePicker.allowsEditing = true
