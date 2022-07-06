@@ -41,4 +41,8 @@ class ProductImageCellFooterView: UICollectionReusableView {
     func hideAddButton() {
         addButton.removeFromSuperview()
     }
+    
+    func addImage() {
+        
+    }
 }

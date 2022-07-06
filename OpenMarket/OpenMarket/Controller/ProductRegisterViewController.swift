@@ -61,8 +61,21 @@ class ProductRegisterViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @objc func pickProductImage() {
-        self.present(self.productImagePicker, animated: true)
+    @objc func didTapAddButton() {
+        let alert = UIAlertController(title: "상품사진 선택", message: nil, preferredStyle: .actionSheet)
+        let library = UIAlertAction(title: "사진앨범", style: .default) { action in
+            self.presentLibrary()
+        }
+        let camera = UIAlertAction(title: "카메라", style: .default) { action in
+            self.presentCamera()
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
+        [library, camera, cancel].forEach { action in
+            alert.addAction(action)
+        }
+        
+        present(alert, animated: true, completion: nil)
     }
 
 }
@@ -87,7 +100,7 @@ extension ProductRegisterViewController: UICollectionViewDataSource, UICollectio
             return UICollectionReusableView()
         }
         
-        footerView.addButton.addTarget(self, action: #selector(pickProductImage), for: .touchUpInside)
+        footerView.addButton.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
         
         return footerView
     }
@@ -102,7 +115,7 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
         present(productImagePicker, animated: true, completion: nil)
     }
     
-    func presentAlbum() {
+    func presentLibrary() {
         productImagePicker.sourceType = .photoLibrary
         productImagePicker.allowsEditing = true
         
