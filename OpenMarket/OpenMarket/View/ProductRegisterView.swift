@@ -24,7 +24,9 @@ class ProductRegisterView: UIScrollView {
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 10
         layout.itemSize = CGSize(width: 100, height: 100)
+        layout.footerReferenceSize = .init(width: 100, height: 100)
         collectionView.collectionViewLayout = layout
+        collectionView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.35).isActive = true
         
         return collectionView
     }()
@@ -53,7 +55,12 @@ class ProductRegisterView: UIScrollView {
     let priceTextField = ProductInformationTextField(placeholder: "상품가격")
     let discountPriceTextField = ProductInformationTextField(placeholder: "할인금액")
     let stockTextField = ProductInformationTextField(placeholder: "재고수량")
-    let currencySegmentedControl = MarketSegmentedControl(items: ["KRW", "USD"])
+    let currencySegmentedControl: MarketSegmentedControl = {
+        let items = Currency.allCases.map { $0.description }
+        let segmentedControl = MarketSegmentedControl(items: items)
+        
+        return segmentedControl
+    }()
     
     let productDescriptionTextView: UITextView = {
         let textView = UITextView()

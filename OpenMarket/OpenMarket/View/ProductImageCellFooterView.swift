@@ -9,7 +9,7 @@ import UIKit
 
 class ProductImageCellFooterView: UICollectionReusableView {
     static let identifier = "ProductImageCellFooterView"
-    private let addButton: UIButton = {
+    let addButton: UIButton = {
        let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 20, height: 20)))
         button.setImage(AccessoryImage.plus, for: .normal)
         button.backgroundColor = .systemGray3
@@ -19,6 +19,7 @@ class ProductImageCellFooterView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setUpUI()
     }
     
     required init?(coder: NSCoder) {
@@ -26,6 +27,7 @@ class ProductImageCellFooterView: UICollectionReusableView {
     }
     
     private func setUpUI() {
+        self.backgroundColor = .systemGray3
         self.addSubview(addButton)
         addButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -34,5 +36,9 @@ class ProductImageCellFooterView: UICollectionReusableView {
             addButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor)
         ])
+    }
+    
+    func hideAddButton() {
+        addButton.removeFromSuperview()
     }
 }

@@ -8,6 +8,7 @@
 import UIKit
 
 class ProductImageCell: UICollectionViewCell {
+    static let identifier = "ProductImageCell"
     private let productImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -49,7 +50,7 @@ class ProductImageCell: UICollectionViewCell {
             productImageView.heightAnchor.constraint(equalTo: productImageView.widthAnchor),
             
             deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -10),
-            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10),
+            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
         ])
     }
     

@@ -8,15 +8,16 @@
 import UIKit
 
 class ProductRegisterViewController: UIViewController {
-    enum Section: CaseIterable {
-        case image
+    private var productImages: [UIImage] = [] {
+        didSet {
+            imageCollectionView.reloadData()
+        }
     }
-    
+    private let maxNumber = 5
+    var imageCollectionView: UICollectionView!
     let productRegisterView = ProductRegisterView()
     let productImagePicker = ProductImagePickerController()
-    
-    private var dataSource: UICollectionViewDiffableDataSource<Section, UIImage>?
-    var imageCollectionView: UICollectionView!
+    let api = APIManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,15 +47,10 @@ class ProductRegisterViewController: UIViewController {
     
     func setUpCollectionViewCell() {
         imageCollectionView = productRegisterView.ProductImageCollectionView
-        imageCollectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: "ProductImageCell")
-        
-        dataSource = UICollectionViewDiffableDataSource<Section, UIImage>(collectionView: imageCollectionView, cellProvider: { (collectionView, indexPath, product) -> ProductImageCell in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductImageCell", for: indexPath) as? ProductImageCell else {
-                return ProductImageCell()
-            }
-            
-            return cell
-        })
+        imageCollectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.identifier)
+        imageCollectionView.register(ProductImageCellFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: ProductImageCellFooterView.identifier)
+        imageCollectionView.dataSource = self
+        imageCollectionView.delegate = self
     }
     
     @objc func didTapCancelButton() {
@@ -69,6 +65,32 @@ class ProductRegisterViewController: UIViewController {
         self.present(self.productImagePicker, animated: true)
     }
 
+}
+
+extension ProductRegisterViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return productImages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductImageCell.identifier, for: indexPath) as? ProductImageCell else {
+            return ProductImageCell()
+        }
+        
+        cell.setUpProductImage(with: productImages[indexPath.row])
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProductImageCellFooterView.identifier, for: indexPath) as? ProductImageCellFooterView else {
+            return UICollectionReusableView()
+        }
+        
+        footerView.addButton.addTarget(self, action: #selector(pickProductImage), for: .touchUpInside)
+        
+        return footerView
+    }
 }
 
 extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
