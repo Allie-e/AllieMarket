@@ -53,6 +53,14 @@ class ProductRegisterViewController: UIViewController {
         imageCollectionView.delegate = self
     }
     
+    func addImage(image: UIImage) {
+        productImages.append(image)
+    }
+    
+    func removeImage(at index: Int) {
+        productImages.remove(at: index)
+    }
+    
     @objc func didTapCancelButton() {
         self.dismiss(animated: true, completion: nil)
     }
@@ -108,11 +116,14 @@ extension ProductRegisterViewController: UICollectionViewDataSource, UICollectio
 
 extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func presentCamera() {
-        productImagePicker.sourceType = .camera
-        productImagePicker.allowsEditing = true
-        productImagePicker.cameraFlashMode = .on
-        
-        present(productImagePicker, animated: true, completion: nil)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            productImagePicker.sourceType = .camera
+            productImagePicker.allowsEditing = true
+            productImagePicker.cameraFlashMode = .on
+            present(productImagePicker, animated: true, completion: nil)
+        } else {
+            print("Camera not available")
+        }
     }
     
     func presentLibrary() {
@@ -123,6 +134,14 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            addImage(image: image)
+        }
+        
         dismiss(animated: true, completion: nil)
     }
 }

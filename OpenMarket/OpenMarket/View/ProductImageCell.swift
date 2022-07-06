@@ -9,14 +9,9 @@ import UIKit
 
 class ProductImageCell: UICollectionViewCell {
     static let identifier = "ProductImageCell"
-    private let productImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        
-        return imageView
-    }()
+    private let productImageView = UIImageView()
     
-    private let deleteButton: UIButton = {
+    let deleteButton: UIButton = {
         let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 20, height: 20)))
         let minus = AccessoryImage.minus
         button.setImage(minus, for: .normal)
