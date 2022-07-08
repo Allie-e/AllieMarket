@@ -135,8 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				C70FB0FE25BEF61C00C9924E /* MainViewController.swift */,
-				FB3C180A28621AEC0084E4FD /* ProductRegisterViewController.swift */,
-				FB3C180C286364DA0084E4FD /* ProductImagePickerController.swift */,
+				FB72F7C5287875E200506DA7 /* ProductRegisterViewController */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -154,13 +153,10 @@
 		53DA6EDF278F1967005993D1 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				5310A06327994D1700E93FC5 /* Cell */,
+				FB72F7C22878755600506DA7 /* ProductListView */,
+				FB72F7C32878756900506DA7 /* ProductRegisterView */,
 				53DA6EDD278F1961005993D1 /* MarketSegmentedControl.swift */,
 				FBFB49FA27A13C2B00759706 /* AccessoryImage.swift */,
-				FB3C18142865C6DF0084E4FD /* ProductRegisterView.swift */,
-				FB3C181628684E5D0084E4FD /* ProductInformationTextField.swift */,
-				FB72F7BC2871E0DE00506DA7 /* ProductImageCell.swift */,
-				FB72F7BE2873304E00506DA7 /* ProductImageCellFooterView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -209,10 +205,10 @@
 				FB2CEABE2783E6F200DB75DF /* ProductInformation.swift */,
 				FB2CEAE32787188100DB75DF /* ProductImage.swift */,
 				53A83124278719F600448699 /* Vendors.swift */,
+				FB72F7C028757C6100506DA7 /* Currency.swift */,
 				FB2CEADD27840FB800DB75DF /* Parser.swift */,
 				FB3C1818286C863D0084E4FD /* NewProductInformation.swift */,
 				FB3C181A286C87A80084E4FD /* NewProductImage.swift */,
-				FB72F7C028757C6100506DA7 /* Currency.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -225,6 +221,34 @@
 				FB52A741279850FB00A8A126 /* CALayer+extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		FB72F7C22878755600506DA7 /* ProductListView */ = {
+			isa = PBXGroup;
+			children = (
+				5310A06327994D1700E93FC5 /* Cell */,
+			);
+			path = ProductListView;
+			sourceTree = "<group>";
+		};
+		FB72F7C32878756900506DA7 /* ProductRegisterView */ = {
+			isa = PBXGroup;
+			children = (
+				FB3C18142865C6DF0084E4FD /* ProductRegisterView.swift */,
+				FB3C181628684E5D0084E4FD /* ProductInformationTextField.swift */,
+				FB72F7BC2871E0DE00506DA7 /* ProductImageCell.swift */,
+				FB72F7BE2873304E00506DA7 /* ProductImageCellFooterView.swift */,
+			);
+			path = ProductRegisterView;
+			sourceTree = "<group>";
+		};
+		FB72F7C5287875E200506DA7 /* ProductRegisterViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FB3C180A28621AEC0084E4FD /* ProductRegisterViewController.swift */,
+				FB3C180C286364DA0084E4FD /* ProductImagePickerController.swift */,
+			);
+			path = ProductRegisterViewController;
 			sourceTree = "<group>";
 		};
 		FB73D901278D7B7C0063E15A /* Networking */ = {
