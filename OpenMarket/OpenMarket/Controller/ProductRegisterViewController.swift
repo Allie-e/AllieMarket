@@ -19,7 +19,7 @@ class ProductRegisterViewController: UIViewController {
     let productImagePicker = ProductImagePickerController()
     let api = APIManager()
     var newProductImages = [NewProductImage]()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
@@ -120,14 +120,33 @@ class ProductRegisterViewController: UIViewController {
         return info
     }
     
+    func presentSuccessAlert() {
+        let alert = UIAlertController(title: "상품등록 성공", message: nil, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default, handler: nil)
+
+        alert.addAction(ok)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func presentFailureAlert() {
+        let alert = UIAlertController(title: "상품등록 실패", message: nil, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(ok)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     func registerNewProduct(with information: NewProductInformation) {
         api.registerProduct(information: information, image: newProductImages) { result in
             switch result {
             case .success(let data):
+                NotificationCenter.default.post(name: .updateView, object: nil)
                 DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
+                    self.presentSuccessAlert()
                 }
             case .failure(let error):
+                self.presentFailureAlert()
                 print(error.localizedDescription)
             }
         }
@@ -138,7 +157,8 @@ class ProductRegisterViewController: UIViewController {
     }
     
     @objc func didTapDoneButton() {
-        registerNewProduct(with: NewProductInformation(name: "test", descriptions: "dd", price: 100, currency: Currency.dollar, discountedPrice: nil, stock: 1, secret: "&T#X9cz!cq6fFSy6"))
+        let information = registerProductInformation()
+        registerNewProduct(with: information)
         self.dismiss(animated: true, completion: nil)
     }
     

@@ -1,5 +1,9 @@
 import UIKit
 
+extension Notification.Name {
+    static let updateView = Notification.Name("updateView")
+}
+
 class MainViewController: UIViewController {
     private enum Section: CaseIterable {
         case product
@@ -38,6 +42,7 @@ class MainViewController: UIViewController {
         setUpGridCell()
         applyListSnapShot(animatingDifferences: false)
         applyGridSnapShot(animatingDifferences: false)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateProductList), name: .updateView, object: nil)
     }
     
     private func setUpSegmentedControl() {
@@ -89,6 +94,10 @@ class MainViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    @objc func updateProductList() {
+        getProductData()
     }
     
     // MARK: - List Cell
