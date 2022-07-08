@@ -8,17 +8,18 @@
 import UIKit
 
 class ProductRegisterViewController: UIViewController {
+    private let maxNumber = 5
+    private var imageCollectionView: UICollectionView!
+    private let productRegisterView = ProductRegisterView()
+    private let productImagePicker = ProductImagePickerController()
+    private let api = APIManager()
+    
+    private var newProductImages = [NewProductImage]()
     private var productImages: [UIImage] = [] {
         didSet {
             imageCollectionView.reloadData()
         }
     }
-    private let maxNumber = 5
-    var imageCollectionView: UICollectionView!
-    let productRegisterView = ProductRegisterView()
-    let productImagePicker = ProductImagePickerController()
-    let api = APIManager()
-    var newProductImages = [NewProductImage]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +47,7 @@ class ProductRegisterViewController: UIViewController {
         ])
     }
     
-    func setUpCollectionViewCell() {
+    private func setUpCollectionViewCell() {
         imageCollectionView = productRegisterView.ProductImageCollectionView
         imageCollectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.identifier)
         imageCollectionView.register(ProductImageCellFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: ProductImageCellFooterView.identifier)
@@ -54,14 +55,31 @@ class ProductRegisterViewController: UIViewController {
         imageCollectionView.delegate = self
     }
     
-    func addImage(image: UIImage) {
+    private func presentSuccessAlert() {
+        let alert = UIAlertController(title: "상품등록 성공", message: nil, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default, handler: nil)
+
+        alert.addAction(ok)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func presentFailureAlert() {
+        let alert = UIAlertController(title: "상품등록 실패", message: nil, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(ok)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func addImage(image: UIImage) {
         guard let imageData = image.jpegData(compressionQuality: 0.1) else { return }
         let newImage = NewProductImage(fileName: "New.jpeg", data: imageData, type: "jpeg")
         productImages.append(image)
         newProductImages.append(newImage)
     }
     
-    func removeImage(at index: Int) {
+    private func removeImage(at index: Int) {
         productImages.remove(at: index)
         newProductImages.remove(at: index)
     }
@@ -120,24 +138,7 @@ class ProductRegisterViewController: UIViewController {
         return info
     }
     
-    func presentSuccessAlert() {
-        let alert = UIAlertController(title: "상품등록 성공", message: nil, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "확인", style: .default, handler: nil)
-
-        alert.addAction(ok)
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func presentFailureAlert() {
-        let alert = UIAlertController(title: "상품등록 실패", message: nil, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "확인", style: .default, handler: nil)
-        alert.addAction(ok)
-        
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func registerNewProduct(with information: NewProductInformation) {
+    private func registerNewProduct(with information: NewProductInformation) {
         api.registerProduct(information: information, image: newProductImages) { result in
             switch result {
             case .success(let data):
@@ -152,6 +153,7 @@ class ProductRegisterViewController: UIViewController {
         }
     }
     
+    //MARK: - @objc method
     @objc func didTapCancelButton() {
         self.dismiss(animated: true, completion: nil)
     }
@@ -178,9 +180,9 @@ class ProductRegisterViewController: UIViewController {
         
         present(alert, animated: true, completion: nil)
     }
-
 }
 
+// MARK: - CollectionViewDataSource, Delegate method
 extension ProductRegisterViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return productImages.count
@@ -207,8 +209,9 @@ extension ProductRegisterViewController: UICollectionViewDataSource, UICollectio
     }
 }
 
+// MARK: - ImagePickerControllerDelegate method
 extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func presentCamera() {
+    private func presentCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             productImagePicker.sourceType = .camera
             productImagePicker.allowsEditing = true
@@ -219,7 +222,7 @@ extension ProductRegisterViewController: UIImagePickerControllerDelegate, UINavi
         }
     }
     
-    func presentLibrary() {
+    private func presentLibrary() {
         productImagePicker.sourceType = .photoLibrary
         productImagePicker.allowsEditing = true
         
