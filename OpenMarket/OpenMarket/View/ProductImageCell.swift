@@ -10,6 +10,7 @@ import UIKit
 class ProductImageCell: UICollectionViewCell {
     static let identifier = "ProductImageCell"
     private let productImageView = UIImageView()
+    var indexPath: IndexPath?
     
     let deleteButton: UIButton = {
         let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 20, height: 20)))
@@ -51,5 +52,16 @@ class ProductImageCell: UICollectionViewCell {
     
     func setUpProductImage(with image: UIImage) {
         productImageView.image = image
+    }
+    
+    func searchIndexPath() -> IndexPath? {
+        guard let superView = self.superview as? UICollectionView else {
+            print("superview is not a UICollectionView - getIndexPath")
+            return nil
+        }
+        let indexPath = superView.indexPath(for: self)
+        self.indexPath = indexPath
+        
+        return indexPath
     }
 }
