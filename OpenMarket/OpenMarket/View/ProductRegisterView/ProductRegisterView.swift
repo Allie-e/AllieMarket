@@ -18,7 +18,7 @@ class ProductRegisterView: UIScrollView {
         return stackView
     }()
     
-    let ProductImageCollectionView: UICollectionView = {
+    let productImageCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -97,7 +97,7 @@ class ProductRegisterView: UIScrollView {
     }
     
     private func addSubviews() {
-        [ProductImageCollectionView, textFieldStackView, productDescriptionTextView].forEach { view in
+        [productImageCollectionView, textFieldStackView, productDescriptionTextView].forEach { view in
             entireStackView.addArrangedSubview(view)
         }
         

@@ -48,7 +48,7 @@ class ProductRegisterViewController: UIViewController {
     }
     
     private func setUpCollectionViewCell() {
-        imageCollectionView = productRegisterView.ProductImageCollectionView
+        imageCollectionView = productRegisterView.productImageCollectionView
         imageCollectionView.register(ProductImageCell.self, forCellWithReuseIdentifier: ProductImageCell.identifier)
         imageCollectionView.register(ProductImageCellFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: ProductImageCellFooterView.identifier)
         imageCollectionView.dataSource = self
