@@ -98,17 +98,35 @@ class ProductDetailView: UIScrollView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        addSubviews()
+        setUpEntireStackView()
+        setUpLabelStackView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setUpEntireStackView() {
+    func addSubviews() {
         self.addSubview(entireStackView)
         [productImageCollectionView, labelStackView, productDescriptionTextView].forEach { view in
             entireStackView.addArrangedSubview(view)
         }
+        
+        [labelStackView, stockAndPriceStackView].forEach { view in
+            view.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        [nameLabel, stockAndPriceStackView].forEach { view in
+            labelStackView.addArrangedSubview(view)
+        }
+        
+        [stockLabel, priceLabel, discountedPriceLabel].forEach { view in
+            stockAndPriceStackView.addArrangedSubview(view)
+        }
+    }
+    
+    func setUpEntireStackView() {
         entireStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -121,28 +139,12 @@ class ProductDetailView: UIScrollView {
     }
     
     func setUpLabelStackView() {
-        [labelStackView, stockAndPriceStackView].forEach { view in
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
         NSLayoutConstraint.activate([
             labelStackView.topAnchor.constraint(equalTo: self.topAnchor),
             labelStackView.bottomAnchor.constraint(equalTo: productDescriptionTextView.topAnchor),
             labelStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             labelStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
-    }
-    
-    func setUpLabelStackViews() {
-        [nameLabel, stockAndPriceStackView].forEach { view in
-            labelStackView.addArrangedSubview(view)
-        }
-        
-        
-        
-        [stockLabel, priceLabel, discountedPriceLabel].forEach { view in
-            stockAndPriceStackView.addArrangedSubview(view)
-        }
     }
     
     private func setUpStockLabel(with stock: Int) {
