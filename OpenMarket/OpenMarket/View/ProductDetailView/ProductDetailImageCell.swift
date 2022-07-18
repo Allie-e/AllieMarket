@@ -33,7 +33,7 @@ class ProductDetailImageCell: UICollectionViewCell {
         ])
     }
     
-    func setUpProductImage(with image: UIImage) {
-        productImageView.image = image
+    func setUpProductImage(with url: String) {
+        productImageView.load(url: url)
     }
 }

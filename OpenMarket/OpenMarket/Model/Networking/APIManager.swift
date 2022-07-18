@@ -39,7 +39,7 @@ class APIManager: APIManageable {
         task.resume()
     }
     
-    func requestProductInformation(productID: Int, completionHandler: @escaping (Result<ProductInformation, Error>) -> Void) {
+    func requestProductInformation(productID: Int, completionHandler: @escaping (Result<ProductDetailInformation, Error>) -> Void) {
         guard let url = URLManager.productInformation(productID).url else {
             completionHandler(.failure(URLSessionError.urlIsNil))
             return

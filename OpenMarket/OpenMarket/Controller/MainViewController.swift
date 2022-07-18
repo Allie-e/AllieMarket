@@ -43,6 +43,8 @@ class MainViewController: UIViewController {
         applyListSnapShot(animatingDifferences: false)
         applyGridSnapShot(animatingDifferences: false)
         NotificationCenter.default.addObserver(self, selector: #selector(updateProductList), name: .updateView, object: nil)
+        listCollectionView.delegate = self
+        gridCollectionView.delegate = self
     }
     
     private func setUpSegmentedControl() {
@@ -170,6 +172,12 @@ class MainViewController: UIViewController {
         return layout
     }
     
+    func showProductDetailView() {
+        let detailViewController = ProductDetailViewController()
+        navigationController?.pushViewController(detailViewController, animated: true)
+        detailViewController.productId
+    }
+    
     // MARK: - @objc Method
     @objc func changeView(_ sender: MarketSegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -188,5 +196,13 @@ class MainViewController: UIViewController {
         let navigationController = UINavigationController(rootViewController: ProductRegisterViewController())
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true, completion: nil)
+    }
+}
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        let productId = productList[indexPath.item].id
+        showProductDetailView()
     }
 }

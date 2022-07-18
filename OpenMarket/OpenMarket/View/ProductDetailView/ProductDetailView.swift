@@ -147,7 +147,7 @@ class ProductDetailView: UIScrollView {
         ])
     }
     
-    private func setUpStockLabel(with stock: Int) {
+    func setUpStockLabel(with stock: Int) {
         if stock == 0 {
             stockLabel.text = "품절"
             stockLabel.textColor = .systemYellow
@@ -157,7 +157,7 @@ class ProductDetailView: UIScrollView {
         }
     }
     
-    private func setUpPriceLabel(price: Double, discountedPrice: Double, currency: Currency) {
+    func setUpPriceLabel(price: Double, discountedPrice: Double, currency: Currency) {
         if discountedPrice == 0 {
             priceLabel.text = "\(currency.description) \(price.formattedNumber())"
             priceLabel.textColor = .systemGray
