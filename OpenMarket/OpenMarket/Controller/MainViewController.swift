@@ -172,10 +172,10 @@ class MainViewController: UIViewController {
         return layout
     }
     
-    func showProductDetailView() {
+    func showProductDetailView(with id: Int) {
         let detailViewController = ProductDetailViewController()
         navigationController?.pushViewController(detailViewController, animated: true)
-        detailViewController.productId
+        detailViewController.getProductId(id)
     }
     
     // MARK: - @objc Method
@@ -201,8 +201,7 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
         let productId = productList[indexPath.item].id
-        showProductDetailView()
+        showProductDetailView(with: productId)
     }
 }

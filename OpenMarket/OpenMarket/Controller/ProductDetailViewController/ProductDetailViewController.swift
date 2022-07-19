@@ -13,7 +13,7 @@ class ProductDetailViewController: UIViewController {
     private let api = APIManager()
     private var productDetail: ProductDetailInformation?
     private var productImages = [UIImage]()
-    var productId: Int?
+    private var productId: Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +49,7 @@ class ProductDetailViewController: UIViewController {
             productDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             productDetailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             productDetailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            productDetailView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            productDetailView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
     
@@ -83,6 +83,10 @@ class ProductDetailViewController: UIViewController {
         productDetailView.productDescriptionTextView.text = product.description
     }
     
+    func getProductId(_ id: Int) {
+        self.productId = id
+    }
+    
     func getProductDetail() {
         guard let productId = productId else {
             return
@@ -94,6 +98,8 @@ class ProductDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.productDetail = data
                     self.setUpDetail(with: data)
+                    self.navigationItem.title = data.name
+                    self.imageCollectionView.reloadData()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
