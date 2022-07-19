@@ -9,7 +9,12 @@ import UIKit
 
 class ProductDetailImageCell: UICollectionViewCell {
     static let identifier = "ProductDetailImageCell"
-    private let productImageView = UIImageView()
+    private let productImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        
+        return imageView
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

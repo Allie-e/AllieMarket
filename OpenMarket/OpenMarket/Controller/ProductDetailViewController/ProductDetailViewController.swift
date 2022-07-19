@@ -67,10 +67,6 @@ class ProductDetailViewController: UIViewController {
         setUpProductDescription(with: product)
     }
     
-//    private func setUpProductImage(with product: ProductDetailInformation) {
-//        let image = product.images
-//    }
-    
     private func setUpProductName(with product: ProductDetailInformation) {
         productDetailView.nameLabel.text = product.name
     }

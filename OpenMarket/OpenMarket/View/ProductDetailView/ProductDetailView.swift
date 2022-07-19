@@ -13,7 +13,9 @@ class ProductDetailView: UIScrollView {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fill
-        stackView.spacing = 8
+        stackView.spacing = 10
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
         
         return stackView
     }()
@@ -22,18 +24,20 @@ class ProductDetailView: UIScrollView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 10
-        layout.itemSize = CGSize(width: 200, height: 200)
+        layout.minimumLineSpacing = 0
+        layout.itemSize = CGSize(width: 150, height: 150)
         collectionView.collectionViewLayout = layout
-        collectionView.heightAnchor.constraint(equalTo: collectionView.widthAnchor).isActive = true
+        collectionView.isPagingEnabled = true
+        collectionView.heightAnchor.constraint(equalTo: collectionView.widthAnchor)
+            .isActive = true
         
         return collectionView
     }()
     
-    private let labelStackView: UIStackView = {
+    let nameAndStockStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .fill
         
         return stackView
@@ -48,15 +52,6 @@ class ProductDetailView: UIScrollView {
         return label
     }()
     
-    private let stockAndPriceStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        
-        return stackView
-    }()
-    
     let stockLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
@@ -64,6 +59,15 @@ class ProductDetailView: UIScrollView {
         label.textAlignment = .right
         
         return label
+    }()
+    
+    private let priceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .trailing
+        stackView.distribution = .fill
+        
+        return stackView
     }()
     
     let priceLabel: UILabel = {
@@ -86,47 +90,32 @@ class ProductDetailView: UIScrollView {
     
     let productDescriptionTextView: UITextView = {
         let textView = UITextView()
-        textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.secondarySystemBackground.cgColor
         textView.isScrollEnabled = false
         textView.isEditable = false
+        textView.showsVerticalScrollIndicator = false
         textView.font = .preferredFont(forTextStyle: .body)
         
         return textView
     }()
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubviews()
+        self.backgroundColor = .systemBackground
+        setUpNameAndStockStackView()
+        setUpPriceStackView()
         setUpEntireStackView()
-        setUpLabelStackView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addSubviews() {
-        self.addSubview(entireStackView)
-        [productImageCollectionView, labelStackView, productDescriptionTextView].forEach { view in
+    func setUpEntireStackView() {
+        [productImageCollectionView, nameAndStockStackView, priceStackView, productDescriptionTextView].forEach { view in
             entireStackView.addArrangedSubview(view)
         }
         
-        [labelStackView, stockAndPriceStackView].forEach { view in
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        [nameLabel, stockAndPriceStackView].forEach { view in
-            labelStackView.addArrangedSubview(view)
-        }
-        
-        [stockLabel, priceLabel, discountedPriceLabel].forEach { view in
-            stockAndPriceStackView.addArrangedSubview(view)
-        }
-    }
-    
-    func setUpEntireStackView() {
+        self.addSubview(entireStackView)
         entireStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -138,13 +127,19 @@ class ProductDetailView: UIScrollView {
         ])
     }
     
-    func setUpLabelStackView() {
-        NSLayoutConstraint.activate([
-            labelStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            labelStackView.bottomAnchor.constraint(equalTo: productDescriptionTextView.topAnchor),
-            labelStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            labelStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        ])
+    func setUpNameAndStockStackView() {
+        [nameLabel, stockLabel].forEach { view in
+            nameAndStockStackView.addArrangedSubview(view)
+        }
+        
+        stockLabel.setContentHuggingPriority(.required, for: .horizontal)
+        stockLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+    }
+    
+    private func setUpPriceStackView() {
+        [priceLabel, discountedPriceLabel].forEach { view in
+            priceStackView.addArrangedSubview(view)
+        }
     }
     
     func setUpStockLabel(with stock: Int) {
