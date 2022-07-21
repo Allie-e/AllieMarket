@@ -24,10 +24,13 @@ class ProductDetailView: UIScrollView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0
-        layout.itemSize = CGSize(width: 150, height: 150)
+        layout.minimumLineSpacing = 20
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width - 50,
+                                 height: UIScreen.main.bounds.width  - 50)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         collectionView.collectionViewLayout = layout
         collectionView.isPagingEnabled = true
+        collectionView.decelerationRate = .fast
         collectionView.heightAnchor.constraint(equalTo: collectionView.widthAnchor)
             .isActive = true
         
