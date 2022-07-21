@@ -9,6 +9,7 @@ import UIKit
 
 class ProductImageCellFooterView: UICollectionReusableView {
     static let identifier = "ProductImageCellFooterView"
+    
     let addButton: UIButton = {
        let button = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: 20, height: 20)))
         button.setImage(AccessoryImage.plus, for: .normal)
@@ -40,9 +41,5 @@ class ProductImageCellFooterView: UICollectionReusableView {
     
     func hideAddButton() {
         addButton.removeFromSuperview()
-    }
-    
-    func addImage() {
-        
     }
 }

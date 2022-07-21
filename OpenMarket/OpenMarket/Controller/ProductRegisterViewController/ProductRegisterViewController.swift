@@ -11,7 +11,7 @@ class ProductRegisterViewController: UIViewController {
     private let maxNumber = 5
     private var imageCollectionView: UICollectionView!
     private let productRegisterView = ProductRegisterView()
-    private let productImagePicker = ProductImagePickerController()
+    private let productImagePicker = UIImagePickerController()
     private let api = APIManager()
     
     private var newProductImages = [NewProductImage]()
